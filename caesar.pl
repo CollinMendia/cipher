@@ -3,7 +3,7 @@
 use 5.010;
 use strict;
 use warnings;
-use List::MoreUtils qw(first_index);
+
 sub caesar() {
 	my $s = uc <STDIN>;
 	my $shift = <STDIN>;
@@ -91,5 +91,33 @@ sub atbash() {
 		$i++;
 	}
 }
-viginere();
-#Atbash, Vigirene, and Caesar ciphers all work fine
+sub affine() {
+  my $s = uc <STDIN>;
+  my @arr = $s =~ /./g;
+  my $c = 0;
+  my $d = 0;
+  my $a;
+  my $b;
+  while($c != 1){
+    $a = int(rand(26))+1;
+    $b = int(rand(26))+1;
+    $c = $a;
+    $d = 26;
+    while($d != 0){
+      my $t = $d;
+      $d = $c % $t;
+      $c = $t;
+    }
+  }
+  for my $i(0..(scalar @arr)-1){
+    if($arr[$i] =~ m/[A-Z]/){
+      $arr[$i] = chr((($a*(ord($arr[$i])-65)+$b)%26)+65);
+    }
+  }
+  print$a, " ", $b, "\n";
+  for my $i(0..(scalar @arr)-1){
+    print$arr[$i];
+  }
+}
+atbash();
+#Affine, Atbash, Vigirene, and Caesar ciphers all work fine
