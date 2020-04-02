@@ -1,3 +1,4 @@
+
 #!/usr/bin/perl
 
 use 5.010;
@@ -110,7 +111,7 @@ sub affine() {
     }
   }
   for my $i(0..(scalar @arr)-1){
-    if($arr[$i] =~ m/[A-Z]/){
+    if($arr[$i] =~ /[A-Z]/){
       $arr[$i] = chr((($a*(ord($arr[$i])-65)+$b)%26)+65);
     }
   }
@@ -119,5 +120,31 @@ sub affine() {
     print$arr[$i];
   }
 }
-atbash();
-#Affine, Atbash, Vigirene, and Caesar ciphers all work fine
+sub pollux(){
+  my $s = uc <STDIN>;
+  my @arr = $s =~ /./g;
+  my @dots = split(',', <STDIN>);
+  my @dashes = split(',', <STDIN>);
+  my @space = split(',', <STDIN>);
+  my @a = qw(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z);
+  my @morse = qw(.- -... -.-. -.. . ..-. --. .... .. .--- -.- .-.. -- -. --- .--. --.- .-. ... - ..- ...- .-- -..- -.-- --..);
+  my $thingtosay = "";
+  for my $i(0..@arr-1){
+    if($arr[$i] =~ /[A-Z]/){
+      my ($index) = grep { $a[$_] eq $arr[$i] } (0 .. @a-1);
+		  my $b = defined $index ? $index : -1;
+      my @armorse = $morse[$b] =~ /./g;
+      for my $j(0..@armorse-1){
+        if($armorse[$j] eq '.'){
+          $thingtosay .= $dots[int(rand(@dots-1))];
+        } elsif($armorse[$j] eq '-'){
+          $thingtosay .= $dashes[int(rand(@dashes-1))];
+        }
+      }
+      $thingtosay .= $space[int(rand(@space-1))];
+    }
+  }
+  print$thingtosay;
+}
+pollux();
+#Pollux, Affine, Atbash, Vigirene, and Caesar ciphers all work fine
