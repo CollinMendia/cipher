@@ -146,5 +146,29 @@ sub pollux(){
   }
   print$thingtosay;
 }
-pollux();
-#Pollux, Affine, Atbash, Vigirene, and Caesar ciphers all work fine
+sub hill2 (){
+  my $s = uc <STDIN>;
+  my @arr = $s =~ /./g;
+  if(@arr%2 != 0){
+    push(@arr, 'Z');
+  }
+  my $key = <STDIN>;
+  my @arkey = split(', ', $key);
+  my $a = ord($arkey[0])%65;
+  my $b = ord($arkey[1])%65;
+  my $c = ord($arkey[2])%65;
+  my $d = ord($arkey[3])%65;
+  my $i = 0;
+  while($i < @arr-1){
+    if($arr[$i] =~ /[A-Z]/){
+      my $e = ord($arr[$i])%65;
+      my $f = ord($arr[$i+1])%65;
+      my $top = ($a*$e + $b*$f)%26;
+      my $bottom = ($c*$e + $d*$f)%26;
+      print chr($top+65), chr($bottom+65);
+    }
+    $i+=2;
+  }
+}
+hill2();
+#Hill 2x2, Pollux, Affine, Atbash, Vigirene, and Caesar ciphers all work fine
